@@ -52,6 +52,11 @@ jobs:
           submodules: false
       - name: Check out the AstroBox modules
         run: git submodule update --init --depth 1 External/AstroBox/modules/core External/AstroBox/modules/bluetooth External/AstroBox/modules/frontbridge External/AstroBox/modules/pb External/AstroBox/modules/vivo_msgpack External/AstroBox/plugins/btclassic-spp
+      
+      # 👇 新增：将 AstroBox-NG 克隆到与 Mirage 同级的目录，解决路径找不到的问题
+      - name: Clone sibling AstroBox-NG repo
+        run: git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG.git ../AstroBox-NG
+
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v5
       - name: Setup Swift
