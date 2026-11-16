@@ -53,9 +53,17 @@ jobs:
       - name: Check out the AstroBox modules
         run: git submodule update --init --depth 1 External/AstroBox/modules/core External/AstroBox/modules/bluetooth External/AstroBox/modules/frontbridge External/AstroBox/modules/pb External/AstroBox/modules/vivo_msgpack External/AstroBox/plugins/btclassic-spp
       
-      # 👇 新增：将 AstroBox-NG 克隆到与 Mirage 同级的目录，解决路径找不到的问题
-      - name: Clone sibling AstroBox-NG repo
-        run: git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG.git ../AstroBox-NG
+      - name: Assemble sibling AstroBox-NG source tree
+        run: |
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG.git ../AstroBox-NG
+          $modules = '../AstroBox-NG/src-tauri/modules'
+          New-Item -ItemType Directory -Force -Path $modules, '../AstroBox-NG/src-tauri/plugins' | Out-Null
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-Core.git "$modules/core"
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-Bluetooth.git "$modules/bluetooth"
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-FrontBridge.git "$modules/frontbridge"
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-Pb.git "$modules/pb"
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-Vivo-MsgPack.git "$modules/vivo_msgpack"
+          git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Plugin-BtClassicSpp.git ../AstroBox-NG/src-tauri/plugins/btclassic-spp
 
       - name: Setup VS Dev Environment
         uses: seanmiddleditch/gha-setup-vsdevenv@v5
