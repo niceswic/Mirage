@@ -32,6 +32,8 @@
 		DBB3EB2E63A2E0AECAB060A0 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D1CF627AADBF304BCDB9F3 /* AppModel.swift */; };
 		AB12CD34EF56AB12CD34EF56 /* Mirage.icon in Resources */ = {isa = PBXBuildFile; fileRef = AB12CD34EF56AB12CD34EF57 /* Mirage.icon */; };
 		E0D806B9AE17654D6F5B684F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFBE0B053EDA634D3EF481A2 /* Assets.xcassets */; };
+		C1B2C3D4E5F6000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000000000001 /* Localizable.strings */; };
+		C1B2C3D4E5F6000000000002 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000000000002 /* InfoPlist.strings */; };
 		F8694AC5C4C3DF5BA1CC2901 /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D58DAADF6C500FD0ED481 /* HubView.swift */; };
 		FC8987CAF3A13F5D4EA5D164 /* AppsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21ECF0E289D29B85D2540CA2 /* AppsTab.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +66,8 @@
 		B566AC05C53954B376E57780 /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
 		AB12CD34EF56AB12CD34EF57 /* Mirage.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = Mirage.icon; sourceTree = "<group>"; };
 		DFBE0B053EDA634D3EF481A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1B2C3D4E5F6000000000001 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		B1B2C3D4E5F6000000000002 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		EEC55B15ACA82A998C028795 /* FilesWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesWindow.swift; sourceTree = "<group>"; };
 		F3937192ED9C13F0E8A2250F /* Mirage-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mirage-Bridging-Header.h"; sourceTree = "<group>"; };
 		F7BC361DCB0A1E02AF74A7F3 /* ChromeGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeGeometry.swift; sourceTree = "<group>"; };
@@ -135,6 +139,8 @@
 			children = (
 				AB12CD34EF56AB12CD34EF57 /* Mirage.icon */,
 				DFBE0B053EDA634D3EF481A2 /* Assets.xcassets */,
+				A1B2C3D4E5F6000000000001 /* Localizable.strings */,
+				A1B2C3D4E5F6000000000002 /* InfoPlist.strings */,
 				7BEDF02B74D6333C6030FA8B /* Info.plist */,
 				F3937192ED9C13F0E8A2250F /* Mirage-Bridging-Header.h */,
 				8E747CB77882FCB30FC30C40 /* Mirage.entitlements */,
@@ -268,6 +274,7 @@
 			knownRegions = (
 				Base,
 				en,
+				"zh-Hans",
 			);
 			mainGroup = CA1F54A8C4CAA0117425397F;
 			minimizedProjectReferenceProxies = 1;
@@ -292,6 +299,8 @@
 			files = (
 				AB12CD34EF56AB12CD34EF56 /* Mirage.icon in Resources */,
 				E0D806B9AE17654D6F5B684F /* Assets.xcassets in Resources */,
+				C1B2C3D4E5F6000000000001 /* Localizable.strings in Resources */,
+				C1B2C3D4E5F6000000000002 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +379,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A1B2C3D4E5F6000000000001 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B1B2C3D4E5F6000000000001 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A1B2C3D4E5F6000000000002 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B1B2C3D4E5F6000000000002 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		79C1EAB9F8AFBD873672F40F /* Debug */ = {

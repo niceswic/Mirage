@@ -1,0 +1,5 @@
+/* Mirage 简体中文 — Info.plist 中的用户可见文案 */
+
+NSHumanReadableCopyright = "Mirage — qemu-miwear 模拟器管理器";
+NSBluetoothAlwaysUsageDescription = "配套核心还可以通过蓝牙连接真实手环。";
+CFBundleDisplayName = "Mirage";
