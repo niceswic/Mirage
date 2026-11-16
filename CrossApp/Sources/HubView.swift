@@ -45,13 +45,13 @@ struct HubView: View {
                 }
             } else {
                 ContentUnavailableView {
-                    Text("No Devices")
+                    Text("没有设备")
                 } description: {
-                    Text("Create a device from an official firmware package.")
+                    Text("从官方固件包创建设备。")
                 } actions: {
                     HStack {
-                        Button("New Device…") { model.newDevice() }
-                        Button("Browse Firmware Archives…") { openWindow(id: "archives") }
+                        Button("新建设备…") { model.newDevice() }
+                        Button("浏览固件归档…") { openWindow(id: "archives") }
                     }
                 }
             }
@@ -66,7 +66,7 @@ struct HubView: View {
         }
         .alert(Binding(get: { model.alert.map { $0.message.isEmpty ? $0.title : "\($0.title)\n\n\($0.message)" } },
                        set: { if $0 == nil { model.alert = nil } })) {
-            Button("OK") { model.alert = nil }
+            Button("好") { model.alert = nil }
         }
     }
 }
@@ -85,11 +85,11 @@ struct DeviceSidebar: View {
         }
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Button("New Device") { model.newDevice() }
-                Button("Firmware…") { openWindow(id: "archives") }
-                Button("Profiles…") { openWindow(id: "profiles") }
+                Button("新建设备") { model.newDevice() }
+                Button("固件…") { openWindow(id: "archives") }
+                Button("设备配置…") { openWindow(id: "profiles") }
             }
-            TextField("Search", text: $search)
+            TextField("搜索", text: $search)
             ScrollView {
                 List(shown, selection: Binding(get: { model.selection }, set: { model.selection = $0 })) { d in
                     DeviceRow(model: model, device: d)
@@ -97,11 +97,11 @@ struct DeviceSidebar: View {
             }
             .frame(maxHeight: .infinity)
             HStack {
-                Text("\(model.runningCount) running")
+                Text("\(model.runningCount) 个运行中")
                     .font(.caption)
                     .foregroundColor(.gray)
                 Spacer()
-                Button("Settings…") { openWindow(id: "settings") }
+                Button("设置…") { openWindow(id: "settings") }
             }
         }
         .padding(10)
@@ -173,24 +173,24 @@ struct DeviceToolbar: View {
             }
             Spacer()
             if active {
-                Button("Shut Down") { model.shutdown(device.id) }
+                Button("关机") { model.shutdown(device.id) }
                     .disabled(session.state == .stopping)
             } else {
-                Button("Boot") { model.boot(device.id) }
+                Button("启动") { model.boot(device.id) }
                     .disabled(model.deviceJobs[device.id] != nil)
             }
             Button(session.state == .paused ? "Resume" : "Pause") {
                 Task { session.state == .paused ? await session.resume() : await session.pause() }
             }
             .disabled(session.state != .running && session.state != .paused)
-            Menu("More") {
-                Button("Restart") { model.restart(device.id) }.disabled(!active)
-                Button("Force Quit") { session.forceQuit() }.disabled(!active)
+            Menu("更多") {
+                Button("重新启动") { model.restart(device.id) }.disabled(!active)
+                Button("强制退出") { session.forceQuit() }.disabled(!active)
                 Divider()
-                Button("Save Screenshot") { screenshot(session) }.disabled(!active)
-                Button("Show Logs") { revealFile?(model.library.paths(for: device).logs) }
+                Button("存储截屏") { screenshot(session) }.disabled(!active)
+                Button("显示日志") { revealFile?(model.library.paths(for: device).logs) }
                 Divider()
-                Button("Erase All Content and Settings…") { confirmErase = true }.disabled(active)
+                Button("抹掉所有内容和设置…") { confirmErase = true }.disabled(active)
             }
             if let profile {
                 ForEach(profile.buttons) { button in
@@ -200,16 +200,16 @@ struct DeviceToolbar: View {
                 }
             }
             Divider().frame(height: 20)
-            Button("Settings") { showSettings = true }
+            Button("设置") { showSettings = true }
             Button(showConsole ? "Hide Console" : "Console") { showConsole.toggle() }
-            Button("Files") { openWindow(id: "files") }
+            Button("文件") { openWindow(id: "files") }
             Button(showInspector ? "Hide Inspector" : "Inspector") { showInspector.toggle() }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .alert("Erase “\(device.name)”?", isPresented: $confirmErase) {
-            Button("Erase") { model.eraseDevice(device.id) }
-            Button("Cancel") {}
+            Button("抹掉") { model.eraseDevice(device.id) }
+            Button("取消") {}
         }
     }
 

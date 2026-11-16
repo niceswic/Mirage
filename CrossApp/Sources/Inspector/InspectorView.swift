@@ -50,10 +50,10 @@ struct InfoTab: View {
         VStack(alignment: .leading, spacing: 0) {
             InspectorSection {
                 HStack {
-                    Text("Name")
-                    TextField("Name", text: $name)
+                    Text("名称")
+                    TextField("名称", text: $name)
                         .onSubmit(perform: rename)
-                    Button("Rename") { rename() }
+                    Button("重命名") { rename() }
                         .disabled(name.trimmingCharacters(in: .whitespaces).isEmpty || name == device.name)
                 }
                 InfoRow(label: "Model", value: profile?.name ?? device.profileID)
@@ -89,7 +89,7 @@ struct InfoTab: View {
                     if others.isEmpty {
                         Footnote("No other firmware for \(profile.name) in the library.")
                     } else {
-                        Menu("Install Other Version") {
+                        Menu("安装其他版本") {
                             ForEach(others) { other in
                                 Button("\(other.marketingName) \(other.version)") { switchTo = other }
                             }
@@ -99,11 +99,11 @@ struct InfoTab: View {
                 }
             }
             HStack {
-                Button("Show Files") { revealFile?(model.library.deviceDirectory(device.id)) }
+                Button("显示文件") { revealFile?(model.library.deviceDirectory(device.id)) }
                 Spacer()
-                Button("Duplicate") { model.duplicateDevice(device.id) }
+                Button("复制") { model.duplicateDevice(device.id) }
                     .disabled(session.state.isActive)
-                Button("Delete…") { confirmDelete = true }
+                Button("删除…") { confirmDelete = true }
                     .disabled(session.state.isActive)
             }
             .padding(.top, 14)
@@ -111,13 +111,13 @@ struct InfoTab: View {
         .onAppear { sync() }
         .onChange(of: device.id) { sync() }
         .alert("Delete “\(device.name)”? Its storage images, logs and pairing data are deleted.", isPresented: $confirmDelete) {
-            Button("Delete Device") { model.deleteDevice(device.id) }
-            Button("Cancel") {}
+            Button("删除设备") { model.deleteDevice(device.id) }
+            Button("取消") {}
         }
         .alert(Binding(get: { switchTo.map { "Install \($0.version)? The firmware partitions are rewritten; user data survives when the new images fit." } },
                        set: { if $0 == nil { switchTo = nil } })) {
-            Button("Install") { if let fw = switchTo { model.switchFirmware(device.id, to: fw) }; switchTo = nil }
-            Button("Cancel") { switchTo = nil }
+            Button("安装") { if let fw = switchTo { model.switchFirmware(device.id, to: fw) }; switchTo = nil }
+            Button("取消") { switchTo = nil }
         }
     }
 
@@ -159,7 +159,7 @@ struct StorageTab: View {
                 }
             }
             HStack {
-                Button("Browse Files…") { openWindow(id: "files") }
+                Button("浏览文件…") { openWindow(id: "files") }
                 Footnote(active ? "The running device's file tree, through its shell"
                          : "/data and the romfs partitions, from the storage images")
             }
@@ -172,9 +172,9 @@ struct StorageTab: View {
                             Spacer()
                             if img.exists {
                                 Text(Format.bytes(img.size)).foregroundColor(.gray)
-                                Button("Show") { revealFile?(img.url) }
+                                Button("显示") { revealFile?(img.url) }
                             } else {
-                                Text("Missing").foregroundColor(.orange)
+                                Text("缺失").foregroundColor(.orange)
                             }
                         }
                         Footnote(img.role.detail + (img.allocated < img.size && img.exists ? " · \(Format.bytes(img.allocated)) on disk (sparse)" : ""))
@@ -204,7 +204,7 @@ struct StorageTab: View {
                 }
             }
             VStack(alignment: .leading, spacing: 6) {
-                Button("Erase All Content and Settings…") { confirmErase = true }
+                Button("抹掉所有内容和设置…") { confirmErase = true }
                     .disabled(active || model.deviceJobs[device.id] != nil)
                 Footnote("Rebuilds every image from the firmware. The device keeps its identity and binding keys.")
             }
@@ -212,8 +212,8 @@ struct StorageTab: View {
         }
         .task(id: "\(device.id)\(device.storage.builtAt?.timeIntervalSince1970 ?? 0)\(active)") { load() }
         .alert("Erase “\(device.name)”? All data on the device is lost.", isPresented: $confirmErase) {
-            Button("Erase") { model.eraseDevice(device.id) }
-            Button("Cancel") {}
+            Button("抹掉") { model.eraseDevice(device.id) }
+            Button("取消") {}
         }
     }
 

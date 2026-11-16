@@ -17,27 +17,27 @@ struct DeviceSettingsView: View {
         VStack(alignment: .leading, spacing: 0) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("\(device.name) Settings").font(.headline)
+                    Text("\(device.name) 设置").font(.headline)
                     InspectorSection("Boot") {
-                        Toggle("NuttX shell on the console", isOn: $options.shell)
+                        Toggle("在控制台中使用 NuttX shell", isOn: $options.shell)
                         Footnote("Starts the firmware’s own sh builtin at boot through the gdbstub, like a debug probe. The firmware is not modified.")
-                        Toggle("Bluetooth bridge", isOn: $options.bluetoothBridge)
+                        Toggle("蓝牙桥接", isOn: $options.bluetoothBridge)
                         Footnote("Serves the band’s radio as a standard HCI controller over TCP, for companion apps.")
                         if options.bluetoothBridge {
                             HStack {
-                                Text("Port")
-                                TextField("Automatic", text: $port).frame(width: 120)
+                                Text("端口")
+                                TextField("自动", text: $port).frame(width: 120)
                             }
                         }
                     }
                     InspectorSection("Debugging") {
                         HStack {
-                            Text("Log items (-d)")
+                            Text("日志项 (-d)")
                             TextField("e.g. guest_errors,unimp", text: $options.debugLog)
                         }
-                        Text("Trace events (-trace), one per line")
+                        Text("跟踪事件 (-trace)，每行一个")
                         TextEditor(text: $traces).frame(height: 60)
-                        Text("Extra QEMU arguments, one per line")
+                        Text("额外 QEMU 参数，每行一个")
                         TextEditor(text: $extra).frame(height: 90)
                         Footnote("Applied at the next boot. Logs go to the device’s Logs folder.")
                     }
@@ -52,8 +52,8 @@ struct DeviceSettingsView: View {
             Divider()
             HStack {
                 Spacer()
-                Button("Cancel") { dismiss() }
-                Button("Save") {
+                Button("取消") { dismiss() }
+                Button("存储") {
                     var d = device
                     var o = options
                     o.extraArguments = extra.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }

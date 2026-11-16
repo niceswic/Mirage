@@ -11,7 +11,7 @@ struct FilesWindow: View {
         if let device = model.device(model.selection) {
             FilesView(model: model, device: device, browser: FileBrowsers.browser(for: device.id, model: model))
         } else {
-            Text("No device selected").foregroundColor(.gray).padding()
+            Text("未选择设备").foregroundColor(.gray).padding()
         }
     }
 }
@@ -76,9 +76,9 @@ struct FilesView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Footnote(browser.notice ?? modeText)
                 HStack {
-                    Button("Back") { Task { await browser.goBack() } }.disabled(!browser.canGoBack)
-                    Button("Up") { Task { await browser.goUp() } }.disabled(browser.path == "/")
-                    Button("Refresh") { Task { await browser.refresh() } }.disabled(browser.source == nil)
+                    Button("返回") { Task { await browser.goBack() } }.disabled(!browser.canGoBack)
+                    Button("上级") { Task { await browser.goUp() } }.disabled(browser.path == "/")
+                    Button("刷新") { Task { await browser.refresh() } }.disabled(browser.source == nil)
                     Text(browser.path).lineLimit(1)
                     Spacer()
                     if let busy = browser.busy {
@@ -93,7 +93,7 @@ struct FilesView: View {
                         TextField(naming == .newFolder ? "Folder name" : "New name", text: $name)
                         Button(naming == .newFolder ? "Create" : "Rename") { commitName() }
                             .disabled(name.isEmpty || name.contains("/"))
-                        Button("Cancel") { self.naming = nil }
+                        Button("取消") { self.naming = nil }
                     }
                 }
                 ScrollView {
@@ -118,11 +118,11 @@ struct FilesView: View {
             await browser.reloadSources()
         }
         .alert(deleteTitle, isPresented: $confirmDelete) {
-            Button("Delete") {
+            Button("删除") {
                 let items = browser.selectedEntries
                 Task { await browser.delete(items) }
             }
-            Button("Cancel") {}
+            Button("取消") {}
         }
     }
 
@@ -130,24 +130,24 @@ struct FilesView: View {
         let selected = browser.selectedEntries.first
         let idle = browser.busy == nil
         return HStack {
-            Button("Open") { if let e = selected { Task { await browser.open(e) } } }
+            Button("打开") { if let e = selected { Task { await browser.open(e) } } }
                 .disabled(selected == nil || !idle)
-            Button("Save…") { if let e = selected { save(e) } }
+            Button("存储…") { if let e = selected { save(e) } }
                 .disabled(selected == nil || !idle)
             if let e = selected, !e.isDirectory, e.name.hasSuffix(".bin") {
-                Button("Browse romfs") { Task { await browser.browseImage(e) } }.disabled(!idle)
+                Button("浏览 romfs") { Task { await browser.browseImage(e) } }.disabled(!idle)
             }
             Spacer()
             if browser.canWrite {
-                Button("Copy File Here…") { upload(directory: false) }.disabled(!idle)
-                Button("Copy Folder Here…") { upload(directory: true) }.disabled(!idle)
-                Button("New Folder") { name = ""; naming = .newFolder }.disabled(!idle)
-                Button("Rename") { if let e = selected { name = e.name; naming = .rename(e) } }
+                Button("将文件拷贝到此处…") { upload(directory: false) }.disabled(!idle)
+                Button("将文件夹拷贝到此处…") { upload(directory: true) }.disabled(!idle)
+                Button("新建文件夹") { name = ""; naming = .newFolder }.disabled(!idle)
+                Button("重命名") { if let e = selected { name = e.name; naming = .rename(e) } }
                     .disabled(selected == nil || !idle)
-                Button("Delete") { confirmDelete = true }.disabled(selected == nil || !idle)
+                Button("删除") { confirmDelete = true }.disabled(selected == nil || !idle)
             }
             if browser.replaceableVolume != nil {
-                Button("Replace Image…") { replaceImage() }.disabled(!idle)
+                Button("替换镜像…") { replaceImage() }.disabled(!idle)
             }
         }
     }

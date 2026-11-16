@@ -19,9 +19,9 @@ struct ProfilesWindow: View {
                     }
                 }
                 .frame(maxHeight: .infinity)
-                Menu("New Profile") {
+                Menu("新建配置") {
                     ForEach(model.profiles) { p in
-                        Button("Based on \(p.name)") { duplicate(p) }
+                        Button("基于 \(p.name)") { duplicate(p) }
                     }
                 }
             }
@@ -32,7 +32,7 @@ struct ProfilesWindow: View {
                 ProfileEditor(model: model, profile: p, onDuplicate: { duplicate(p) })
             } else {
                 ContentUnavailableView {
-                    Text("Select a Profile")
+                    Text("选择配置")
                 }
             }
         }
@@ -75,14 +75,14 @@ private struct ProfileEditor: View {
                     if locked {
                         HStack {
                             Footnote("Built-in profiles mirror the boards in qemu-miwear.")
-                            Button("Duplicate to Customize") { onDuplicate() }
+                            Button("复制以自定义") { onDuplicate() }
                         }
                     }
                     InspectorSection("Identity") {
                         field("Name", edited.name)
                         InfoRow(label: "Identifier", value: current.id)
                         HStack {
-                            Text("Family")
+                            Text("系列")
                             Picker(of: DeviceProfile.Family.allCases.map(\.title), selection: Binding(
                                 get: { current.family.title },
                                 set: { t in if let f = DeviceProfile.Family.allCases.first(where: { $0.title == t }) { p = with(current) { $0.family = f } } }))
@@ -100,11 +100,11 @@ private struct ProfileEditor: View {
                     InspectorSection("Display") {
                         numberField("Width", edited.screen.width)
                         numberField("Height", edited.screen.height)
-                        Toggle("Round screen", isOn: Binding(get: { current.screen.shape == .circle },
+                        Toggle("圆形屏幕", isOn: Binding(get: { current.screen.shape == .circle },
                                                              set: { round in p = with(current) { $0.screen.shape = round ? .circle : .roundedRect } }))
                         if current.screen.shape == .roundedRect {
                             HStack {
-                                Text("Corner radius")
+                                Text("圆角半径")
                                 TextField("0", value: edited.screen.cornerRadius).frame(width: 90)
                             }
                         }
@@ -116,10 +116,10 @@ private struct ProfileEditor: View {
                                 Spacer()
                                 Text(b.qcode).foregroundColor(.gray)
                                 Text(b.placement.rawValue).foregroundColor(.gray)
-                                Button("Remove") { p = with(current) { $0.buttons.removeAll { $0.id == b.id } } }
+                                Button("移除") { p = with(current) { $0.buttons.removeAll { $0.id == b.id } } }
                             }
                         }
-                        Button("Add Button") {
+                        Button("添加按键") {
                             p = with(current) {
                                 $0.buttons.append(.init(id: UUID().uuidString, title: "Button", qcode: "home",
                                                         placement: .rightLower, symbol: "button.horizontal.top.press"))
@@ -128,13 +128,13 @@ private struct ProfileEditor: View {
                         Footnote("The key codes the board’s gpio-keys device listens for (hw/arm/bes_board.c).")
                     }
                     InspectorSection("Storage") {
-                        Toggle("Persistent boot NOR (flash-image)", isOn: edited.storage.mainNOR)
-                        Toggle("Sensor hub NOR", isOn: Binding(get: { current.storage.sensorNORSize != nil },
+                        Toggle("持久启动 NOR (flash-image)", isOn: edited.storage.mainNOR)
+                        Toggle("传感器中枢 NOR", isOn: Binding(get: { current.storage.sensorNORSize != nil },
                                                               set: { on in p = with(current) { $0.storage.sensorNORSize = on ? 0x80_0000 : nil } }))
                         InfoRow(label: "Mass storage", value: current.storage.kindTitle)
                         if current.storage.emmc != nil {
                             HStack {
-                                Text("eMMC size (GiB)")
+                                Text("eMMC 大小 (GiB)")
                                 TextField("8", value: Binding(get: { current.storage.emmc?.sizeGiB ?? 8 },
                                                               set: { v in p = with(current) { $0.storage.emmc?.sizeGiB = max(1, min(64, v)) } }))
                                     .frame(width: 90)
@@ -152,10 +152,10 @@ private struct ProfileEditor: View {
             if !locked {
                 Divider()
                 HStack {
-                    Button("Delete Profile…") { confirmDelete = true }
+                    Button("删除配置…") { confirmDelete = true }
                     Spacer()
-                    Button("Revert") { reset() }
-                    Button("Save") {
+                    Button("还原") { reset() }
+                    Button("存储") {
                         var q = current
                         q.productPrefixes = prefixes.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }.filter { !$0.isEmpty }
                         model.saveProfile(q)
@@ -168,8 +168,8 @@ private struct ProfileEditor: View {
         .onAppear { reset() }
         .onChange(of: profile.id) { reset() }
         .alert("Delete \(current.name)?", isPresented: $confirmDelete) {
-            Button("Delete") { model.deleteProfile(current.id) }
-            Button("Cancel") {}
+            Button("删除") { model.deleteProfile(current.id) }
+            Button("取消") {}
         }
     }
 

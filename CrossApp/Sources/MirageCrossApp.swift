@@ -38,14 +38,14 @@ struct MirageCrossApp: App {
         .defaultSize(width: 1240, height: 820)
         .commands {
             CommandMenu("Device") {
-                Button("New Device…") { model.newDevice() }
+                Button("新建设备…") { model.newDevice() }
                 Divider()
-                Button("Boot or Shut Down") {
+                Button("启动或关机") {
                     guard let id = model.selection else { return }
                     model.state(of: id).isActive ? model.shutdown(id) : model.boot(id)
                 }
-                Button("Restart") { if let id = model.selection { model.restart(id) } }
-                Button("Pause or Resume") {
+                Button("重新启动") { if let id = model.selection { model.restart(id) } }
+                Button("暂停或继续") {
                     guard let id = model.selection else { return }
                     let s = model.session(id)
                     Task { s.state == .paused ? await s.resume() : await s.pause() }

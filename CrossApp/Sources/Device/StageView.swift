@@ -42,9 +42,9 @@ struct StageView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ContentUnavailableView {
-                Text("Unknown Device Profile")
+                Text("未知设备配置")
             } description: {
-                Text("“\(device.profileID)” is not in Device Profiles.")
+                Text("“\(device.profileID)” 不在设备配置中。")
             }
         }
     }
@@ -57,9 +57,9 @@ struct StageView: View {
                 if session.screenSize == nil || session.state == .launching {
                     Text(session.state == .launching ? "Starting…" : "Connecting…").foregroundColor(.white)
                 } else if session.state == .paused {
-                    Text("Paused").foregroundColor(.white)
+                    Text("已暂停").foregroundColor(.white)
                 } else if session.state == .stopping {
-                    Text("Shutting down…").foregroundColor(.white)
+                    Text("正在关机…").foregroundColor(.white)
                 }
             }
         } else if let job = model.deviceJobs[device.id] {
@@ -70,8 +70,8 @@ struct StageView: View {
             }
         } else {
             VStack(spacing: 10) {
-                Text("Shut Down").foregroundColor(.gray)
-                Button("Boot") { model.boot(device.id) }
+                Text("关机").foregroundColor(.gray)
+                Button("启动") { model.boot(device.id) }
             }
         }
     }

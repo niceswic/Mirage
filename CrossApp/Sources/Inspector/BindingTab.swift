@@ -19,17 +19,17 @@ struct BindingTab: View {
         let pending = ImageBuilder.factoryProperties(identity: device.identity, binding: device.binding) != device.storage.factoryProperties
         VStack(alignment: .leading, spacing: 0) {
             InspectorSection {
-                Toggle("Bound to a phone", isOn: bind(\.binding.bound))
+                Toggle("已绑定手机", isOn: bind(\.binding.bound))
                 Footnote(d.binding.bound ? "Boots past setup; a companion app connects with the AuthKey."
                                          : "Boots into the setup wizard, unbound.")
             }
             if d.binding.bound {
                 InspectorSection("AuthKey") {
-                    TextField("AuthKey", text: bind(\.binding.authKey))
+                    TextField("认证密钥", text: bind(\.binding.authKey))
                     if !BindInfo.isValidKey(d.binding.authKey) {
                         Text("32 hex digits").font(.caption).foregroundColor(.orange)
                     }
-                    Button("Generate New Key") { update { $0.binding.authKey = BindInfo.randomKey() } }
+                    Button("生成新密钥") { update { $0.binding.authKey = BindInfo.randomKey() } }
                     Footnote("The band’s persist.miwear_token_key. Companion apps authenticate with it; a new key means pairing again.")
                 }
                 InspectorSection("Bind Keys") {
@@ -43,9 +43,9 @@ struct BindingTab: View {
                     }
                     row("Sequence", bind(\.binding.seqnum))
                     HStack {
-                        Toggle("Show keys", isOn: $revealKeys)
+                        Toggle("显示密钥", isOn: $revealKeys)
                         Spacer()
-                        Button("Regenerate") {
+                        Button("重新生成") {
                             update {
                                 $0.binding.beaconKey = BindInfo.randomKey()
                                 $0.binding.irKey = BindInfo.randomKey()
@@ -58,7 +58,7 @@ struct BindingTab: View {
                 row("Device ID", bind(\.identity.did))
                 row("Serial", bind(\.identity.serial))
                 row("Bluetooth", bind(\.identity.bluetoothAddress))
-                Button("Generate New Identity") {
+                Button("生成新身份") {
                     if let p = model.profile(device.profileID) {
                         update {
                             let extra = $0.identity.extra
@@ -74,13 +74,13 @@ struct BindingTab: View {
                         Text(p.key)
                         Spacer()
                         Text(p.value).foregroundColor(.gray).lineLimit(1)
-                        Button("Remove") { update { $0.identity.extra.removeAll { $0.key == p.key } } }
+                        Button("移除") { update { $0.identity.extra.removeAll { $0.key == p.key } } }
                     }
                 }
                 HStack {
-                    TextField("key", text: $newKey)
-                    TextField("value", text: $newValue)
-                    Button("Add") {
+                    TextField("键", text: $newKey)
+                    TextField("值", text: $newValue)
+                    Button("添加") {
                         let k = newKey.trimmingCharacters(in: .whitespaces)
                         guard !k.isEmpty else { return }
                         let v = newValue
@@ -97,7 +97,7 @@ struct BindingTab: View {
                 Text(error).font(.caption).foregroundColor(.orange).padding(.top, 10)
             }
             HStack {
-                if changed { Button("Revert") { draft = nil } }
+                if changed { Button("还原") { draft = nil } }
                 Spacer()
                 Button(active ? "Save for Next Boot" : "Save") {
                     guard let draft else { return }
@@ -112,7 +112,7 @@ struct BindingTab: View {
                     Footnote(active ? "Changes are written into the factory partition after the device shuts down."
                                     : "The factory partition is out of date.")
                     Spacer()
-                    if !active { Button("Write Now") { model.applyPendingFactory(device.id) } }
+                    if !active { Button("立即写入") { model.applyPendingFactory(device.id) } }
                 }
                 .padding(.top, 8)
             }
