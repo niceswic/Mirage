@@ -157,7 +157,9 @@ final class InputQueue: @unchecked Sendable {
         let t = Thread { [self] in
             var buf = [UInt8](repeating: 0, count: 4096)
             while true {
-                let n = buf.withUnsafeMutableBytes { mirage_term_read($0.baseAddress, $0.count) }
+                // `long` is 32-bit on Windows (LLP64) and 64-bit elsewhere, so
+                // normalise to Int before using it as a count.
+                let n = Int(buf.withUnsafeMutableBytes { mirage_term_read($0.baseAddress, $0.count) })
                 condition.lock()
                 if n > 0 { pending += buf.prefix(n) } else { closed = true }
                 condition.broadcast()
