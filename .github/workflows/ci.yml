@@ -121,7 +121,7 @@ jobs:
 
   # the shipped macOS app: native SwiftUI (Mirage.xcodeproj), QEMU bundled
   macos:
-    runs-on: macos-26
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -140,9 +140,9 @@ jobs:
           git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-Pb.git "$modules/pb"
           git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Module-Vivo-MsgPack.git "$modules/vivo_msgpack"
           git clone --depth 1 https://github.com/AstralSightStudios/AstroBox-NG-Plugin-BtClassicSpp.git ../AstroBox-NG/src-tauri/plugins/btclassic-spp
-      - name: Select the newest Xcode
+      - name: Select Xcode 16.4
         run: |
-          sudo xcode-select -s "$(ls -d /Applications/Xcode*.app | sort -V | tail -1)"
+          sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
           xcodebuild -version
       - name: QEMU dependencies
         run: brew install glib pixman meson ninja pkgconf

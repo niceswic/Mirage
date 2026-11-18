@@ -32,9 +32,7 @@ struct HubView: View {
                     Color.clear
                 }
             }
-            .inspectorColumnWidth(min: 290, ideal: 330, max: 440)
             .toolbar {
-                ToolbarSpacer(.flexible, placement: .primaryAction)
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button { showSettings = true } label: { Label("Device Settings", systemImage: "slider.horizontal.3") }
                         .disabled(model.selection == nil)
@@ -193,7 +191,6 @@ private struct DeviceToolbar: ToolbarContent {
             .help("Toggle NSH Console")
         }
 
-        ToolbarSpacer(.fixed)
         ToolbarItemGroup {
             if active {
                 Button { model.shutdown(device.id) } label: { Label("Shut Down", systemImage: "stop.fill") }
