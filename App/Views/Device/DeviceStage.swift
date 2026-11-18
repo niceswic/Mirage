@@ -225,7 +225,6 @@ private struct Caption: View {
                         } label: {
                             Label("Boot", systemImage: "play.fill").padding(.horizontal, 10).padding(.vertical, 3)
                         }
-                        .buttonStyle(.glass)
                         .controlSize(.large)
                         .keyboardShortcut("b", modifiers: [.command])
                     }
