@@ -30,6 +30,7 @@
 		C984976E96DE16DC11689DF2 /* BindingTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B1922BCAA70B15786085E5 /* BindingTab.swift */; };
 		CFE9052AEEBCD222239DD960 /* ArchiveModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE324B50FDD58CE97A9E1C29 /* ArchiveModel.swift */; };
 		DBB3EB2E63A2E0AECAB060A0 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D1CF627AADBF304BCDB9F3 /* AppModel.swift */; };
+		AB12CD34EF56AB12CD34EF56 /* Mirage.icon in Resources */ = {isa = PBXBuildFile; fileRef = AB12CD34EF56AB12CD34EF57 /* Mirage.icon */; };
 		E0D806B9AE17654D6F5B684F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFBE0B053EDA634D3EF481A2 /* Assets.xcassets */; };
 		C1B2C3D4E5F6000000000001 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000000000001 /* Localizable.strings */; };
 		C1B2C3D4E5F6000000000002 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6000000000002 /* InfoPlist.strings */; };
@@ -63,6 +64,7 @@
 		A7397802AF6A76F4E5B19ED1 /* DeviceChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceChrome.swift; sourceTree = "<group>"; };
 		AE324B50FDD58CE97A9E1C29 /* ArchiveModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveModel.swift; sourceTree = "<group>"; };
 		B566AC05C53954B376E57780 /* FileBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowser.swift; sourceTree = "<group>"; };
+		AB12CD34EF56AB12CD34EF57 /* Mirage.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = Mirage.icon; sourceTree = "<group>"; };
 		DFBE0B053EDA634D3EF481A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1B2C3D4E5F6000000000001 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B1B2C3D4E5F6000000000002 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 		4C2596A7ABAEF798C6018379 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AB12CD34EF56AB12CD34EF57 /* Mirage.icon */,
 				DFBE0B053EDA634D3EF481A2 /* Assets.xcassets */,
 				A1B2C3D4E5F6000000000001 /* Localizable.strings */,
 				A1B2C3D4E5F6000000000002 /* InfoPlist.strings */,
@@ -294,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB12CD34EF56AB12CD34EF56 /* Mirage.icon in Resources */,
 				E0D806B9AE17654D6F5B684F /* Assets.xcassets in Resources */,
 				C1B2C3D4E5F6000000000001 /* Localizable.strings in Resources */,
 				C1B2C3D4E5F6000000000002 /* InfoPlist.strings in Resources */,
