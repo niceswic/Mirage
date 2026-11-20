@@ -34,10 +34,10 @@ struct AppsTab: View {
                                 Text(info.name.isEmpty ? "Connected" : info.name)
                                 Footnote("\(info.model) · \(info.firmwareVersion)")
                             } else if ab.state == .connecting && ab.deviceID == device.id {
-                                Text("正在连接…")
+                                Text("Connecting…")
                                 Footnote("Confirm the pairing request on the device the first time.")
                             } else {
-                                Text("未连接")
+                                Text("Not connected")
                                 Footnote(ab.deviceID != nil && ab.deviceID != device.id && ab.state == .connected
                                          ? "Connected to another device"
                                          : "Bluetooth bridge 127.0.0.1:\(session.bluetoothPort.map(String.init) ?? "—")")
@@ -45,9 +45,9 @@ struct AppsTab: View {
                         }
                         Spacer()
                         if connected {
-                            Button("断开连接") { Task { await ab.disconnect() } }
+                            Button("Disconnect") { Task { await ab.disconnect() } }
                         } else if !(ab.state == .connecting && ab.deviceID == device.id) {
-                            Button("连接") {
+                            Button("Connect") {
                                 guard let port = session.bluetoothPort else { return }
                                 Task {
                                     await ab.connect(device: device, port: port,
@@ -67,11 +67,11 @@ struct AppsTab: View {
                     InspectorSection {
                         HStack {
                             VStack(alignment: .leading, spacing: 1) {
-                                Text("安装")
+                                Text("Install")
                                 Footnote(".canopus, .rpk quick apps, or watchface packages")
                             }
                             Spacer()
-                            Button("选取…") { choose() }
+                            Button("Choose…") { choose() }
                         }
                         ForEach(ab.installs) { i in
                             VStack(alignment: .leading, spacing: 2) {
@@ -97,8 +97,8 @@ struct AppsTab: View {
                                 }
                                 Spacer()
                                 Menu("…") {
-                                    Button("使用") { Task { await ab.setWatchface(w.id) } }.disabled(w.current)
-                                    Button("移除") { Task { await ab.removeWatchface(w.id) } }.disabled(!w.canRemove)
+                                    Button("Use") { Task { await ab.setWatchface(w.id) } }.disabled(w.current)
+                                    Button("Remove") { Task { await ab.removeWatchface(w.id) } }.disabled(!w.canRemove)
                                 }
                             }
                         }
@@ -115,22 +115,22 @@ struct AppsTab: View {
                                 }
                                 Spacer()
                                 Menu("…") {
-                                    Button("打开") { Task { await ab.launch(app) } }
-                                    Button("移除") { Task { await ab.remove(app) } }
+                                    Button("Open") { Task { await ab.launch(app) } }
+                                    Button("Remove") { Task { await ab.remove(app) } }
                                 }
                             }
                         }
                     }
                     HStack {
                         Spacer()
-                        Button("刷新") { Task { await ab.refreshApps() } }.disabled(ab.loadingApps)
+                        Button("Refresh") { Task { await ab.refreshApps() } }.disabled(ab.loadingApps)
                     }
                     .padding(.top, 8)
                 }
                 if let err = ab.lastError, ab.deviceID == device.id {
                     Text(err).font(.caption).foregroundColor(.orange).padding(.top, 10).textSelectionEnabled()
                 }
-                Toggle("配套应用日志", isOn: $showLog).padding(.top, 14)
+                Toggle("Companion log", isOn: $showLog).padding(.top, 14)
                 if showLog {
                     ScrollView {
                         Text(ab.log.suffix(300).joined(separator: "\n"))

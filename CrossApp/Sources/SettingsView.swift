@@ -37,8 +37,8 @@ private struct GeneralSettings: View {
         InspectorSection("Library") {
             Text(model.library.root.path).textSelectionEnabled()
             HStack {
-                Button("显示文件") { revealFile?(model.library.root) }
-                Button("选取…") {
+                Button("Show Files") { revealFile?(model.library.root) }
+                Button("Choose…") {
                     Task {
                         guard let url = await chooseFile(title: "Choose the Mirage Library", defaultButtonLabel: "Choose",
                                                          allowSelectingFiles: false, allowSelectingDirectories: true) else { return }
@@ -70,8 +70,8 @@ private struct EmulatorSettings: View {
                 }
             }
             HStack {
-                TextField("自定义 qemu-system-arm 路径", text: $custom)
-                Button("应用") {
+                TextField("Custom qemu-system-arm path", text: $custom)
+                Button("Apply") {
                     MirageLibrary.defaults.set(custom, forKey: QEMULocator.overrideKey)
                     candidates = QEMULocator.candidates()
                     load()
@@ -79,7 +79,7 @@ private struct EmulatorSettings: View {
             }
             if !version.isEmpty {
                 InfoRow(label: "Version", value: version)
-                Text("开发板：" + boards.joined(separator: ", ")).font(.caption).foregroundColor(.gray)
+                Text("Boards: " + boards.joined(separator: ", ")).font(.caption).foregroundColor(.gray)
             }
         }
         .onAppear { load() }
@@ -106,7 +106,7 @@ private struct ArchiveSettings: View {
             HStack {
                 Text("GitHub token")
                 SecureField("Optional", text: $token)
-                Button("存储") { MirageLibrary.defaults.set(token, forKey: FirmwareArchiveClient.tokenKey) }
+                Button("Save") { MirageLibrary.defaults.set(token, forKey: FirmwareArchiveClient.tokenKey) }
             }
             Footnote("Releases are listed through the GitHub API, which allows 60 requests an hour without a token. Any token works (no scopes needed). Downloads don’t count against the limit.")
         }

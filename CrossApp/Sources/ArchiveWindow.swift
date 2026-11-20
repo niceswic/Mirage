@@ -22,7 +22,7 @@ struct ArchiveWindow: View {
             + products.map { SidebarItem(id: $0, title: ProductCatalog.name(of: $0) + (archive.isEmulatable($0) ? " ✓" : ""), detail: $0) }
         NavigationSplitView {
             VStack(alignment: .leading, spacing: 8) {
-                TextField("搜索产品", text: $search)
+                TextField("Search products", text: $search)
                 ScrollView {
                     List(items, selection: $selection) { item in
                         VStack(alignment: .leading, spacing: 1) {
@@ -32,7 +32,7 @@ struct ArchiveWindow: View {
                     }
                 }
                 .frame(maxHeight: .infinity)
-                Toggle("仅可模拟设备", isOn: $emulatableOnly)
+                Toggle("Emulatable devices only", isOn: $emulatableOnly)
                 if let e = archive.error {
                     Text(e).font(.caption).foregroundColor(.orange).lineLimit(3)
                 } else if let t = archive.fetchedAt {
@@ -82,7 +82,7 @@ private struct ProductDetail: View {
                 Text(ProductCatalog.name(of: product)).font(.title2)
                 Footnote(product)
                 if emulatable, let profile {
-                    Text("运行于 \(profile.name) 配置（\(profile.chip)）").foregroundColor(.green)
+                    Text("Runs on the \(profile.name) profile (\(profile.chip))").foregroundColor(.green)
                 } else {
                     Footnote("No device profile emulates this product yet")
                 }
@@ -115,9 +115,9 @@ private struct ReleaseRow: View {
                 Spacer()
                 if let asset {
                     if let fw = archive.installed(asset) {
-                        Text("在资料库中").foregroundColor(.green)
+                        Text("In Library").foregroundColor(.green)
                         if emulatable {
-                            Button("创建设备") { model.newDevice(with: fw) }
+                            Button("Create Device") { model.newDevice(with: fw) }
                         }
                     } else if let t = archive.transfer(for: asset) {
                         VStack(alignment: .trailing, spacing: 2) {
@@ -125,18 +125,18 @@ private struct ReleaseRow: View {
                             Footnote(t.phase == .downloading ? t.detail : "Importing · \(t.detail)")
                         }
                         if t.phase == .downloading {
-                            Button("取消") { archive.cancel(asset) }
+                            Button("Cancel") { archive.cancel(asset) }
                         }
                     } else {
-                        Button("下载") { archive.download(release) }
+                        Button("Download") { archive.download(release) }
                         if emulatable {
-                            Button("下载并创建设备") { archive.download(release, then: true) }
+                            Button("Download & Create Device") { archive.download(release, then: true) }
                         }
                     }
                 }
             }
             HStack {
-                Button("在 GitHub 上查看") { openURL(release.url) }
+                Button("View on GitHub") { openURL(release.url) }
                 if !release.notes.isEmpty {
                     Button(showNotes ? "Hide Release Notes" : "Release Notes") { showNotes.toggle() }
                 }
@@ -161,19 +161,19 @@ private struct LibraryDetail: View {
         let imports = model.archive.importsInProgress.map { ImportRow(path: $0.0, transfer: $0.1) }
         VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Text("已安装固件").font(.headline)
+                Text("Installed Firmware").font(.headline)
                 Spacer()
-                Button("导入包…") { importPackage() }
+                Button("Import Package…") { importPackage() }
             }
             .padding(12)
             Divider()
             if model.firmwares.isEmpty && imports.isEmpty {
                 ContentUnavailableView {
-                    Text("无固件")
+                    Text("No Firmware")
                 } description: {
-                    Text("导入官方完整 OTA 包（.zip / .bin，或解压后的文件夹），或从左侧归档下载一个。")
+                    Text("Import an official full OTA package (.zip / .bin, or an unpacked folder), or download one from the archive on the left.")
                 } actions: {
-                    Button("导入包…") { importPackage() }
+                    Button("Import Package…") { importPackage() }
                 }
             } else {
                 ScrollView {
@@ -186,11 +186,11 @@ private struct LibraryDetail: View {
                                 }
                                 Spacer()
                                 if model.profiles.contains(where: { $0.runs(fw) }) {
-                                    Button("创建设备") { model.newDevice(with: fw) }
+                                    Button("Create Device") { model.newDevice(with: fw) }
                                 }
                                 Menu("…") {
-                                    Button("显示文件") { revealFile?(model.library.firmwareDirectory(fw.id)) }
-                                    Button("从资料库移除") { toDelete = fw }
+                                    Button("Show Files") { revealFile?(model.library.firmwareDirectory(fw.id)) }
+                                    Button("Remove from Library") { toDelete = fw }
                                 }
                             }
                             .padding(.horizontal, 12)
@@ -203,7 +203,7 @@ private struct LibraryDetail: View {
             }
             ForEach(imports) { row in
                 HStack {
-                    Text("正在导入 \(URL(fileURLWithPath: row.path).lastPathComponent)").lineLimit(1)
+                    Text("Importing \(URL(fileURLWithPath: row.path).lastPathComponent)").lineLimit(1)
                     ProgressView(value: row.transfer.progress).frame(width: 200)
                     Footnote(row.transfer.detail)
                 }
@@ -213,8 +213,8 @@ private struct LibraryDetail: View {
         }
         .alert(Binding(get: { toDelete.map { "Remove \($0.marketingName) \($0.version)? The unpacked images are deleted from the library." } },
                        set: { if $0 == nil { toDelete = nil } })) {
-            Button("移除") { if let fw = toDelete { model.deleteFirmware(fw.id) }; toDelete = nil }
-            Button("取消") { toDelete = nil }
+            Button("Remove") { if let fw = toDelete { model.deleteFirmware(fw.id) }; toDelete = nil }
+            Button("Cancel") { toDelete = nil }
         }
     }
 }

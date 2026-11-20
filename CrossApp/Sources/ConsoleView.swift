@@ -23,7 +23,7 @@ struct ConsolePane: View {
                 Text(shellBadge(session)).font(.caption).foregroundColor(.gray)
                 Spacer()
                 if !poppedOut {
-                    Button("在窗口中打开") { openWindow(id: "console") }
+                    Button("Open in Window") { openWindow(id: "console") }
                 }
             }
             .padding(.horizontal, 10)
@@ -60,7 +60,7 @@ struct ConsoleWindow: View {
         if let device = model.device(model.selection) {
             ConsolePane(model: model, device: device, poppedOut: true)
         } else {
-            Text("未选择设备").foregroundColor(.gray).padding()
+            Text("No device selected").foregroundColor(.gray).padding()
         }
     }
 }
@@ -108,11 +108,11 @@ struct ShellView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 HStack(spacing: 6) {
                     Text(">").foregroundColor(.green)
-                    TextField("运行 NSH 命令", text: $command)
+                    TextField("Run an NSH command", text: $command)
                         .onSubmit(perform: run)
-                    Button("运行") { run() }.disabled(command.isEmpty || !ready)
+                    Button("Run") { run() }.disabled(command.isEmpty || !ready)
                     Button("Ctrl-C") { session.sendConsole(Data([3])) }.disabled(!session.state.isActive)
-                    Button("清除") { output = "" }
+                    Button("Clear") { output = "" }
                 }
                 .padding(6)
             }
@@ -128,7 +128,7 @@ struct ShellView: View {
                         Footnote("BUILTINS")
                         Spacer()
                         if builtins.isEmpty {
-                            Button("载入") {
+                            Button("Load") {
                                 Task {
                                     guard let out = try? await session.execute("help", timeout: 8) else { return }
                                     builtins = Self.parseHelp(out)
@@ -222,7 +222,7 @@ struct LogFileView: View {
             HStack {
                 Footnote(url.path)
                 Spacer()
-                Button("显示文件") { revealFile?(url) }
+                Button("Show File") { revealFile?(url) }
             }
             .padding(6)
         }

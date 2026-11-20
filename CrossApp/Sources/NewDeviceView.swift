@@ -32,12 +32,12 @@ struct NewDeviceView: View {
                             Text(firmware.marketingName).font(.headline)
                             Footnote("HyperOS \(firmware.version) · \(profile.chip.uppercased()) · \(profile.storage.kindTitle)")
                             HStack {
-                                Text("名称")
+                                Text("Name")
                                 TextField(firmware.marketingName, text: $name)
                             }
                             if candidates.count > 1 {
                                 HStack {
-                                    Text("配置")
+                                    Text("Profile")
                                     Picker(of: candidates.map(\.name), selection: Binding(
                                         get: { profile.name },
                                         set: { n in profileID = candidates.first { $0.name == n }?.id }))
@@ -46,12 +46,12 @@ struct NewDeviceView: View {
                                 InfoRow(label: "Profile", value: profile.name)
                             }
                             InspectorSection("Binding") {
-                                Toggle("已绑定手机", isOn: $binding.bound)
+                                Toggle("Bound to a phone", isOn: $binding.bound)
                                 if binding.bound {
                                     HStack {
-                                        Text("认证密钥")
+                                        Text("AuthKey")
                                         TextField("32 hex digits", text: $binding.authKey)
-                                        Button("生成") { binding.authKey = BindInfo.randomKey() }
+                                        Button("Generate") { binding.authKey = BindInfo.randomKey() }
                                     }
                                 }
                                 Footnote(binding.bound
@@ -59,8 +59,8 @@ struct NewDeviceView: View {
                                          : "The device starts in the setup wizard. Offline first-time binding isn’t possible with this firmware.")
                             }
                             InspectorSection("Boot") {
-                                Toggle("在控制台中使用 NuttX shell", isOn: $options.shell)
-                                Toggle("供配套应用使用的蓝牙桥接", isOn: $options.bluetoothBridge)
+                                Toggle("NuttX shell on the console", isOn: $options.shell)
+                                Toggle("Bluetooth bridge for companion apps", isOn: $options.bluetoothBridge)
                             }
                             if let id = identity {
                                 InspectorSection("Factory Identity") {
@@ -70,7 +70,7 @@ struct NewDeviceView: View {
                                 }
                             }
                         } else {
-                            Text("选择固件").font(.headline)
+                            Text("Choose a Firmware").font(.headline)
                             Footnote("Pick an official firmware package on the left, import one, or download one from MiWear Firmware Archives.")
                         }
                     }
@@ -80,14 +80,14 @@ struct NewDeviceView: View {
             }
             Divider()
             HStack {
-                Button("导入包…") { importPackage() }
-                Button("固件归档…") {
+                Button("Import Package…") { importPackage() }
+                Button("Firmware Archives…") {
                     openWindow(id: "archives")
                     dismiss()
                 }
                 Spacer()
-                Button("取消") { dismiss() }
-                Button("创建") {
+                Button("Cancel") { dismiss() }
+                Button("Create") {
                     guard let firmware, let profile else { return }
                     model.createDevice(name: name, firmware: firmware, profile: profile, binding: binding,
                                        options: options, identity: identity ?? FactoryIdentity.generate(for: profile))
@@ -112,7 +112,7 @@ struct NewDeviceView: View {
     private var firmwareList: some View {
         let runnable = model.firmwares.filter { fw in model.profiles.contains { $0.runs(fw) } }
         return VStack(alignment: .leading, spacing: 6) {
-            Text("固件").font(.headline).padding(.horizontal, 10).padding(.top, 10)
+            Text("Firmware").font(.headline).padding(.horizontal, 10).padding(.top, 10)
             ScrollView {
                 List(runnable, selection: Binding(get: { firmwareID }, set: { firmwareID = $0; profileID = nil })) { fw in
                     VStack(alignment: .leading, spacing: 1) {
